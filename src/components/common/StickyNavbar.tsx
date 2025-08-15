@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Search, Twitter, Facebook, Instagram, X } from "lucide-react";
+import { Moon, Sun, Search, Twitter, Facebook, Instagram, X, Menu } from "lucide-react";
 import MaxWidth from "./MaxWidth";
 
 export default function StickyNavbar() {
     const [darkMode, setDarkMode] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const toggleTheme = () => {
         setDarkMode(!darkMode);
@@ -18,16 +19,16 @@ export default function StickyNavbar() {
 
     return (
         <MaxWidth>
-            <header className="w-full  bg-white dark:bg-gray-900">
-                <div className="flex items-center justify-between  py-3">
+            <header className="w-full bg-white dark:bg-gray-900 border-b">
+                <div className="flex items-center justify-between py-3 px-4 md:px-6 lg:px-8">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-2">
                         <span className="text-2xl font-bold text-gray-900 dark:text-white">MyLogo</span>
                     </Link>
 
-                    {/* Right Side */}
-                    <div className="flex items-center space-x-3">
-                        {/* Search Icon / Bar */}
+                    {/* Desktop / Tablet Menu */}
+                    <div className="hidden md:flex items-center space-x-3">
+                        {/* Search */}
                         <div className="relative flex items-center">
                             {showSearch ? (
                                 <div className="flex items-center gap-2">
@@ -84,7 +85,60 @@ export default function StickyNavbar() {
                             <Link href="/contact">Contact</Link>
                         </Button>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden flex items-center gap-2">
+                        {/* Search Button */}
+                        <button
+                            onClick={() => setShowSearch(!showSearch)}
+                            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            {showSearch ? <X size={18} /> : <Search size={18} />}
+                        </button>
+
+                        {/* Mobile Toggle */}
+                        <button
+                            onClick={() => setMobileOpen(!mobileOpen)}
+                            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            <Menu size={18} />
+                        </button>
+                    </div>
                 </div>
+
+                {/* Mobile Menu */}
+                {mobileOpen && (
+                    <div className="md:hidden bg-white dark:bg-gray-900 border-t">
+                        <div className="flex flex-col px-4 py-3 space-y-2">
+                            <Link href="/" onClick={() => setMobileOpen(false)}>Home</Link>
+                            <Link href="/sign-in" onClick={() => setMobileOpen(false)}>Sign In</Link>
+                            <Link href="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+                            <div className="flex space-x-3 mt-2">
+                                <Link href="https://twitter.com" target="_blank" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
+                                    <Twitter size={18} />
+                                </Link>
+                                <Link href="https://facebook.com" target="_blank" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
+                                    <Facebook size={18} />
+                                </Link>
+                                <Link href="https://instagram.com" target="_blank" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md">
+                                    <Instagram size={18} />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Mobile Search */}
+                {showSearch && mobileOpen && (
+                    <div className="md:hidden px-4 pb-3">
+                        <Input
+                            autoFocus
+                            type="text"
+                            placeholder="Search..."
+                            className="w-full"
+                        />
+                    </div>
+                )}
             </header>
         </MaxWidth>
     );
