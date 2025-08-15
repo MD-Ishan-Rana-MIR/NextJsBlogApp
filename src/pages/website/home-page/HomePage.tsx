@@ -2,6 +2,7 @@ import React from "react";
 import FristBlog from "./FristBlog";
 import ThreeBlog from "./ThreeBlog";
 import Link from "next/link";
+import HomeSlider from "./HomeSlider";
 
 const HomePage: React.FC = () => {
   return (
@@ -29,6 +30,17 @@ const HomePage: React.FC = () => {
           <Link className=" hover:underline transition-all  " href={`/all-trending-blog`}>See all trending blog</Link>
         </div>
       </div>
+
+      {/* Home Slider Section */}
+      <div>
+        <HomeSlider></HomeSlider>
+      </div>
+
+
+
+
+
+
     </div>
   );
 };
