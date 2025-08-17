@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -21,18 +22,31 @@ const LoginForm = () => {
 
     const onSubmit: SubmitHandler<UserLoginPayload> = async (data) => {
         try {
-           const res = await loginUser(data).unwrap();
-           console.log(res);
+            const res = await loginUser(data).unwrap();
+            console.log(res);
+
             if (res) {
                 alert("Login successful!");
-                localStorage.setItem('token', res.token);
+
+                // ✅ Store token in localStorage
+                localStorage.setItem("token", res.token);
+
+                // ✅ Store token in cookie (expires in 1 day)
+                Cookies.set("token", res.token, { expires: 1, sameSite: "Strict" });
+
+                // Reset form fields
                 reset();
+
+                // Redirect to homepage
                 window.location.href = "/";
             }
         } catch (err) {
             console.error(err);
+
             const error = err as FetchBaseQueryError & { data?: { msg?: string } };
             alert(error.data?.msg || "Login failed. Please try again.");
+
+            // Reset form fields even if login fails
             reset();
         }
     };

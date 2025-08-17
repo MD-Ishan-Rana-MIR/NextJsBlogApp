@@ -1,5 +1,6 @@
 // user registration 
 
+
 export interface UserRegisterPayload {
     name: string;
     email: string;
@@ -43,4 +44,45 @@ export interface UserLoginResponse {
         lastLogin: string;
         loginDeviceName: string
     };
+}
+
+
+// email verify api 
+
+
+export interface EmailVerifyPayload {
+    email: string;
+}
+
+export interface EmailVerifyResponse {
+    status: string;
+    msg: string;
+}
+
+
+
+// otp verify api 
+
+export interface OtpVerifyPayload {
+    otp: string;
+    email: string;
+}
+
+export interface OtpVerifyResponse {
+    status: string;
+    msg: string;
+    otpVerify : boolean;
+}
+
+
+// new password set api 
+
+
+export interface NewPasswordPayload {
+    password: string;
+}
+
+export interface NewPasswordResponse {
+    status: string;
+    msg: string;
 }
