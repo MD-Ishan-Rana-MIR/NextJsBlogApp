@@ -4,25 +4,36 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { UserLoginPayload } from "@/utility/type/userType";
+import { useLoginUserMutation } from "@/redux/api/authApi/authApi";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-type LoginFormInputs = {
-    email: string;
-    password: string;
-};
+
 
 const LoginForm = () => {
+    const [loginUser] = useLoginUserMutation();
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitting },
-    } = useForm<LoginFormInputs>();
+    } = useForm<UserLoginPayload>();
 
-    const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    const onSubmit: SubmitHandler<UserLoginPayload> = async (data) => {
         try {
-            // TODO: call your login API
-            console.log("Login Data:", data);
+           const res = await loginUser(data).unwrap();
+           console.log(res);
+            if (res) {
+                alert("Login successful!");
+                localStorage.setItem('token', res.token);
+                reset();
+                window.location.href = "/";
+            }
         } catch (err) {
             console.error(err);
+            const error = err as FetchBaseQueryError & { data?: { msg?: string } };
+            alert(error.data?.msg || "Login failed. Please try again.");
+            reset();
         }
     };
 
@@ -74,7 +85,7 @@ const LoginForm = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
+                    <Button type="submit" className="w-full mt-4 cursor-pointer " disabled={isSubmitting}>
                         {isSubmitting ? "Logging in..." : "Login"}
                     </Button>
                 </form>

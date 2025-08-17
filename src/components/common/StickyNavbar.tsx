@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Search, Twitter, Facebook, Instagram, X, Menu } from "lucide-react";
@@ -11,6 +11,15 @@ export default function StickyNavbar() {
     const [darkMode, setDarkMode] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        const userToken = localStorage.getItem("token");
+        if (userToken) {
+            setToken(userToken);
+        }
+    }, []); // runs only once on the client
+
 
     const toggleTheme = () => {
         setDarkMode(!darkMode);
@@ -79,7 +88,13 @@ export default function StickyNavbar() {
 
                         {/* Buttons */}
                         <Button variant="outline" asChild>
-                            <Link href="/login  ">Sign In</Link>
+                            {
+                                token ? (
+                                    <Link href="/profile">Profile</Link>
+                                ) : (
+                                    <Link href="/login">Sign In</Link>
+                                )
+                            }
                         </Button>
                         <Button asChild>
                             <Link href="/contact">Contact</Link>

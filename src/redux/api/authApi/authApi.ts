@@ -1,4 +1,4 @@
-import { RegisterUserResponse, UserRegisterPayload } from '@/utility/type/userType';
+import { RegisterUserResponse, UserLoginPayload, UserLoginResponse, UserRegisterPayload } from '@/utility/type/userType';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 
@@ -28,20 +28,25 @@ const authApi = createApi({
             invalidatesTags: ['User'],
         }),
 
+        // login user 
 
-
-
-
-
-
+        loginUser: builder.mutation<UserLoginResponse,UserLoginPayload>({
+            query: (payload) => ({
+                url: "/auth/login",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ['User'],
+        }),
 
 
     }),
-});
+    });
 
-export const {
-    useRegisterUserMutation,
+    export const {
+        useRegisterUserMutation,
+        useLoginUserMutation,
 
-} = authApi;
+    } = authApi;
 
-export default authApi;
+    export default authApi;
