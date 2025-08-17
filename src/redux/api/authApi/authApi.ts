@@ -1,4 +1,4 @@
-import { RegisterUserResponse, UserLoginPayload, UserLoginResponse, UserRegisterPayload } from '@/utility/type/userType';
+import { EmailVerifyPayload, EmailVerifyResponse, NewPasswordPayload, NewPasswordResponse, OtpVerifyPayload, OtpVerifyResponse, RegisterUserResponse, UserLoginPayload, UserLoginResponse, UserRegisterPayload } from '@/utility/type/userType';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 
@@ -30,7 +30,7 @@ const authApi = createApi({
 
         // login user 
 
-        loginUser: builder.mutation<UserLoginResponse,UserLoginPayload>({
+        loginUser: builder.mutation<UserLoginResponse, UserLoginPayload>({
             query: (payload) => ({
                 url: "/auth/login",
                 method: "POST",
@@ -40,13 +40,54 @@ const authApi = createApi({
         }),
 
 
+        // email verify 
+
+        emailVerify: builder.mutation<EmailVerifyResponse, EmailVerifyPayload>({
+            query: (payload) => ({
+                url: "/forget/send-otp",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ['User'],
+        }),
+
+
+        // otp verify 
+
+        otpVerify: builder.mutation<OtpVerifyResponse, OtpVerifyPayload>({
+            query: (payload) => ({
+                url: "/forget/verify-otp",
+                method: "POST",
+                body: payload,
+            })
+        }),
+
+        // password reset 
+
+
+        newPassword: builder.mutation<NewPasswordResponse, NewPasswordPayload>({
+            query: (payload) => ({
+                url: "/forget/reset-password",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ['User'],
+        }),
+
+
+
+
+
     }),
-    });
+});
 
-    export const {
-        useRegisterUserMutation,
-        useLoginUserMutation,
+export const {
+    useRegisterUserMutation,
+    useLoginUserMutation,
+    useEmailVerifyMutation,
+    useOtpVerifyMutation,
+    useNewPasswordMutation,
 
-    } = authApi;
+} = authApi;
 
-    export default authApi;
+export default authApi;

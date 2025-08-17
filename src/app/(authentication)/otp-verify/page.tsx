@@ -1,8 +1,11 @@
 import React from 'react'
+import OtpForm from './OtpForm'
 
 const Page : React.FC = () => {
   return (
-    <div>Page</div>
+    <div>
+      <OtpForm></OtpForm>
+    </div>
   )
 }
 

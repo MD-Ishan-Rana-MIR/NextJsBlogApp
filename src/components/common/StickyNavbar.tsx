@@ -6,6 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Search, Twitter, Facebook, Instagram, X, Menu } from "lucide-react";
 import MaxWidth from "./MaxWidth";
+import Cookies from "js-cookie";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function StickyNavbar() {
     const [darkMode, setDarkMode] = useState(false);
@@ -24,6 +31,13 @@ export default function StickyNavbar() {
     const toggleTheme = () => {
         setDarkMode(!darkMode);
         document.documentElement.classList.toggle("dark");
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        Cookies.remove("token");
+        setToken(null);
+        window.location.href = "/";
     };
 
     return (
@@ -87,18 +101,19 @@ export default function StickyNavbar() {
                         </Link>
 
                         {/* Buttons */}
-                        <Button variant="outline" asChild>
-                            {
-                                token ? (
-                                    <Link href="/profile">Profile</Link>
-                                ) : (
-                                    <Link href="/login">Sign In</Link>
-                                )
-                            }
-                        </Button>
-                        <Button asChild>
-                            <Link href="/contact">Contact</Link>
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className=" cursor-pointer "  variant="outline">{token ? "Profile" : <Link className=" cursor-pointer " href="/login">Sign In</Link>}</Button>
+                            </DropdownMenuTrigger>
+                            {token && (
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem className=" cursor-pointer"  onClick={handleLogout} >Logout</DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link href="/profile">Go to Profile</Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            )}
+                        </DropdownMenu>
                     </div>
 
                     {/* Mobile Menu Button */}

@@ -1,8 +1,11 @@
 import React from 'react'
+import EmailVerifyFrom from './EmailVerifyFrom'
 
 const Page : React.FC = () => {
   return (
-    <div>Page</div>
+    <div>
+      <EmailVerifyFrom></EmailVerifyFrom>
+    </div>
   )
 }
 
