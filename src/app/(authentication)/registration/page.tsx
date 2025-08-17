@@ -1,9 +1,12 @@
 import React from 'react'
+import RegistrationForm from './RegistrationFrom'
 
-const page = () => {
+const Page : React.FC = () => {
   return (
-    <div>page</div>
+    <div>
+      <RegistrationForm></RegistrationForm>
+    </div>
   )
 }
 
-export default page
+export default Page
