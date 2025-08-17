@@ -79,7 +79,7 @@ export default function StickyNavbar() {
 
                         {/* Buttons */}
                         <Button variant="outline" asChild>
-                            <Link href="/sign-in">Sign In</Link>
+                            <Link href="/login  ">Sign In</Link>
                         </Button>
                         <Button asChild>
                             <Link href="/contact">Contact</Link>

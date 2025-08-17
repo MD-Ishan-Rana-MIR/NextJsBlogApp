@@ -4,6 +4,7 @@ import "./globals.css";
 import StickyNavbar from "@/components/common/StickyNavbar";
 import Navbar from "@/components/common/Navbar";
 import MaxWidth from "@/components/common/MaxWidth";
+import ProviderWrapper from "@/components/redux/ProviderWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         <StickyNavbar></StickyNavbar>
         <Navbar></Navbar>
         <MaxWidth>
-          {children}
+          <ProviderWrapper>
+            {children}
+          </ProviderWrapper>
         </MaxWidth>
       </body>
     </html>
